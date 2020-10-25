@@ -353,6 +353,14 @@ const changeColor = (colorElem) => {
 
 	selectedColor = colorElem.style.backgroundColor;
 
+
+	Array.from(document.getElementsByClassName("bayrak")).forEach((b) => {
+		b.style.boxShadow="0px 0px 11px rgba(0,0,0,0.9)";
+	});
+
+	colorElem.style.boxShadow = "0 0 5px #00FF00";
+
+
 	const colorArray = (selectedColor.substr(4,selectedColor.length).substring(0, selectedColor.substr(4,selectedColor.length).length-1)).split(", ");
 
 	selectedColor = rgbToHex(parseInt(colorArray[0]),parseInt(colorArray[1]),parseInt(colorArray[2]));
@@ -380,6 +388,12 @@ const changeColor = (colorElem) => {
 }
 
 const mySubmit= () => {
+
+	if(document.getElementById(document.getElementById("name_of_beylik").value)){
+		alert ('Hayır, lütfen...');
+		return false;
+	}
+
 	event.preventDefault()
 	if(started){
 		document.querySelectorAll('g[data-color="uncolored"]').forEach((el) => el.setAttribute("data-select","unselected"));

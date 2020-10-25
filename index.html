@@ -5,6 +5,15 @@
 	<title>Anadolu'yu Şekillendirelim!</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
+  <meta property="og:type" content="website">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@beylikkur" />
+  <meta name="twitter:title" content="Anadolu'yu Şekillendirelim!" />
+  <meta name="twitter:description" content="Anadolu'yu Şekillendirdim, sıra sende!" />
+  <meta name="twitter:image" content="https://0d73bb664df8.ngrok.io/beylikkur/src/images/5f95b89e7e12d.png" />
+
   <link href="css/svg-turkiye-haritasi.css" rel="stylesheet" />
   <script src="src/site.js"></script>
   <script src="src/jscolor.js"></script>
@@ -40,7 +49,8 @@
     <h1>KURALLAR!</h1>
     <p>1) Seçimini yaptıktan sonra, komşu olmayan illerimizi işgal edemezsin. İzin vermiyorum.</p>
     <p>2) Yeni bir beylik kurmak istediğinde komşu olmayan illeri seçebilirsin ancak daha önce kurduğun beyliği işgal edemezsin. Kardeşi, kardeşe kırdırtmıyorum.</p>
-    <p>3) Aklıma başka bir şey gelmedi ancak yorumlarını, bulduğun bugları, aklına gelen eklenebilecek özellikleri ve <b><i>naçizane tasarım önerilerini </i></b>(Buna ihtiyacım var, birazdan fark edeceksin) Twitter üzerinden <a style="text-decoration: none; color: dodgerblue; font-weight: 600;" target="_blank" href="https://twitter.com/umayecek">@umayecek</a> 'e mesaj atabilirsin. </p>
+    <p>3) Alttaki bayraklara tıklayarak beylikler arası geçiş yapabilirsin.</p>
+    <p>4) Aklıma başka bir şey gelmedi ancak yorumlarını, bulduğun bugları, aklına gelen eklenebilecek özellikleri ve <b><i>naçizane tasarım önerilerini </i></b>(Buna ihtiyacım var, birazdan fark edeceksin) Twitter üzerinden <a style="text-decoration: none; color: dodgerblue; font-weight: 600;" target="_blank" href="https://twitter.com/umayecek">@umayecek</a> 'e mesaj atabilirsin. </p>
     <h2><i>*Kullanılan SVG haritası için <a target="_blank" href="https://github.com/dnomak/svg-turkiye-haritasi">@dnomak</a>'a teşekkürler. </i></h2>
 
     <button onclick="startGame();">Okuduğumu anlayabilecek yaştayım.</button>
@@ -436,7 +446,7 @@
           })
                   .done( function (response) {
 
-                    setTimeout(() => insertParam('imgUrl',response), 5000)
+                    setTimeout(() => insertParam('imgUrl',response), 3500)
                   })
                   .fail( function (code, status) {
                     console.error(status);
