@@ -1,0 +1,53 @@
+#map{
+  display:inline-block;
+  width: 100%;
+}
+#choose{
+  display: inline-block;
+}
+
+#choose form{
+  display: inline-block;
+}
+
+#choose div {
+  display: inline-block;
+  box-shadow: 0px 0px 11px rgba(0,0,0,0.9);
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+
+.bayrak span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-weight: 600;
+  text-shadow: 0px 0px 11px rgba(0,0,0,0.9);
+}
+
+body{
+  background: lightslategray;
+  max-height: 100vh;
+}
+#name_of_beylik{
+  font-size: 18px;
+  border-radius: 5px;
+}
+button, input[type=submit] {
+  font-size: 18px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+form {
+  background: #222;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 11px rgba(0,0,0,0.9);
+  border-radius: 5px;
+}
+.twitter-share-button {
+ width: 150px; height: 100px;
+}
