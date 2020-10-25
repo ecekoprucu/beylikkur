@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Anadolu'yu Şekillendirelim!</title>
+  <meta charset="UTF-8">
+  <title>Anadolu'yu Şekillendirelim!</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
-<link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
+  <link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
   <meta property="og:type" content="website">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -379,121 +379,121 @@
 </script>
 <script src="src/svg-turkiye-haritasi.js"></script>
 
-    <script>
+<script>
 
 
 
-      svgturkiyeharitasi();
+  svgturkiyeharitasi();
 
 
-      const startGame = () => {
-        document.getElementById("howToPlay").style.display="none";
+  const startGame = () => {
+    document.getElementById("howToPlay").style.display="none";
 
-        document.getElementById("gamePage").style.display="block";
+    document.getElementById("gamePage").style.display="block";
+  }
+
+  function insertParam(key, value) {
+    key = encodeURIComponent(key);
+    value = encodeURIComponent(value);
+
+    // kvp looks like ['key1=value1', 'key2=value2', ...]
+    var kvp = document.location.search.substr(1).split('&');
+    let i=0;
+
+    for(; i<kvp.length; i++){
+      if (kvp[i].startsWith(key + '=')) {
+        let pair = kvp[i].split('=');
+        pair[1] = value;
+        kvp[i] = pair.join('=');
+        break;
       }
+    }
 
-      function insertParam(key, value) {
-        key = encodeURIComponent(key);
-        value = encodeURIComponent(value);
+    if(i >= kvp.length){
+      kvp[kvp.length] = [key,value].join('=');
+    }
 
-        // kvp looks like ['key1=value1', 'key2=value2', ...]
-        var kvp = document.location.search.substr(1).split('&');
-        let i=0;
+    // can return this or...
+    let params = kvp.join('&');
 
-        for(; i<kvp.length; i++){
-          if (kvp[i].startsWith(key + '=')) {
-            let pair = kvp[i].split('=');
-            pair[1] = value;
-            kvp[i] = pair.join('=');
-            break;
-          }
-        }
+    // reload page with new params
+    document.location.search = params;
+  }
 
-        if(i >= kvp.length){
-          kvp[kvp.length] = [key,value].join('=');
-        }
+  const saveIt = () => {
 
-        // can return this or...
-        let params = kvp.join('&');
+    const svg = document.getElementById("svg-turkiye-haritasi").outerHTML;
 
-        // reload page with new params
-        document.location.search = params;
-      }
+    svgToPng(svg,(imgData)=>{
 
-      const saveIt = () => {
+      const pngImage = document.createElement('img');
+      document.getElementById("cheesyDialogBox").style.display="block";
+      document.getElementById("cheesyDialogBox").insertBefore(pngImage, document.getElementById("cheesyDialogBox").firstElementChild);
+      document.getElementById("cheesyDialogBox").children[0].style.width= "100%";
+      pngImage.src=imgData;
 
-        const svg = document.getElementById("svg-turkiye-haritasi").outerHTML;
+      $.ajax({
+        // the server script you want to send your data to
+        'url': 'src/save.php',
+        // all of your POST/GET variables
+        'data': {
+          'imgBase64' : imgData
+        },
+        // you may change this to GET, if you like...
+        'type': 'post',
+        // the kind of response that you want from the server
+        'dataType': 'html',
+      })
+              .done( function (response) {
 
-        svgToPng(svg,(imgData)=>{
+                setTimeout(() => insertParam('imgUrl',response), 3500)
+              })
+              .fail( function (code, status) {
+                console.error(status);
+              })
+    });
+  }
+  function svgToPng(svg, callback) {
+    const url = getSvgUrl(svg);
 
-          const pngImage = document.createElement('img');
-          document.getElementById("cheesyDialogBox").style.display="block";
-          document.getElementById("cheesyDialogBox").insertBefore(pngImage, document.getElementById("cheesyDialogBox").firstElementChild);
-          document.getElementById("cheesyDialogBox").children[0].style.width= "100%";
-          pngImage.src=imgData;
+    if(!callback){
+      return url;
+    }
 
-          $.ajax({
-            // the server script you want to send your data to
-            'url': 'src/save.php',
-            // all of your POST/GET variables
-            'data': {
-              'imgBase64' : imgData
-            },
-            // you may change this to GET, if you like...
-            'type': 'post',
-            // the kind of response that you want from the server
-            'dataType': 'html',
-          })
-                  .done( function (response) {
+    svgUrlToPng(url, (imgData) => {
+      callback(imgData);
+      URL.revokeObjectURL(url);
+    });
+  }
+  function getSvgUrl(svg) {
+    return  URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+  }
+  function svgUrlToPng(svgUrl, callback) {
+    const svgImage = document.createElement('img');
+    // imgPreview.style.position = 'absolute';
+    // imgPreview.style.top = '-9999px';
 
-                    setTimeout(() => insertParam('imgUrl',response), 3500)
-                  })
-                  .fail( function (code, status) {
-                    console.error(status);
-                  })
-        });
-      }
-      function svgToPng(svg, callback) {
-        const url = getSvgUrl(svg);
+    document.body.appendChild(svgImage);
+    svgImage.onload = function () {
+      const canvas = document.createElement('canvas');
+      canvas.width = svgImage.clientWidth;
+      canvas.height = svgImage.clientHeight;
+      const canvasCtx = canvas.getContext('2d');
+      canvasCtx.drawImage(svgImage, 0, 0);
 
-        if(!callback){
-          return url;
-        }
+      const imgData = canvas.toDataURL('image/png');
 
-        svgUrlToPng(url, (imgData) => {
-          callback(imgData);
-          URL.revokeObjectURL(url);
-        });
-      }
-      function getSvgUrl(svg) {
-        return  URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-      }
-      function svgUrlToPng(svgUrl, callback) {
-        const svgImage = document.createElement('img');
-        // imgPreview.style.position = 'absolute';
-        // imgPreview.style.top = '-9999px';
+      callback(imgData);
+      // document.body.removeChild(imgPreview);
+    };
+    svgImage.src = svgUrl;
 
-        document.body.appendChild(svgImage);
-        svgImage.onload = function () {
-          const canvas = document.createElement('canvas');
-          canvas.width = svgImage.clientWidth;
-          canvas.height = svgImage.clientHeight;
-          const canvasCtx = canvas.getContext('2d');
-          canvasCtx.drawImage(svgImage, 0, 0);
-
-          const imgData = canvas.toDataURL('image/png');
-
-          callback(imgData);
-          // document.body.removeChild(imgPreview);
-        };
-        svgImage.src = svgUrl;
-
-      }
+  }
 
 
 
 
-    </script>
+</script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </body>
 </html>
